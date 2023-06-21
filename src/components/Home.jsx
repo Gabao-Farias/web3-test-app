@@ -23,7 +23,8 @@ const Home = () => {
 
   const getCount = async () => {
     const count = await contract.count();
-    setTotalMinted(parseInt(count));
+    const parsed = parseInt(count._hex, 16);
+    setTotalMinted(parsed);
   };
 
   return (
@@ -31,20 +32,26 @@ const Home = () => {
       <WalletBalance />
 
       <h1>Weirdows NFT Collection</h1>
-      {Array(totalMinted + 1)
-        .fill(0)
-        .map((_, i) => (
-          <div>
-            <NFTImage tokenId={i} />
-          </div>
-        ))}
+      <h4>Total NFTs minted: {totalMinted + 1}</h4>
+
+      <div style={{ display: "flex" }}>
+        {Array(totalMinted + 1)
+          .fill(0)
+          .map((value, idx) => {
+            return (
+              <div key={idx}>
+                <NFTImage tokenID={idx} />
+              </div>
+            );
+          })}
+      </div>
     </div>
   );
 };
 
 export default Home;
 
-const NFTImage = ({ tokenID, getCount }) => {
+const NFTImage = ({ tokenID }) => {
   const contentID = "QmQLTyyKSaoM9jCX7wB77wpebqFvuoZYjGaMCY3EuhAgGH";
   const metadataURI = `${contentID}/${tokenID}.json`;
 
@@ -58,7 +65,6 @@ const NFTImage = ({ tokenID, getCount }) => {
 
   const getMintedStatus = async () => {
     const result = await contract.isContentOwned(metadataURI);
-    console.log(result);
     setIsMinted(result);
   };
 
@@ -69,7 +75,6 @@ const NFTImage = ({ tokenID, getCount }) => {
       value: ethers.utils.parseEther("0.05"),
     });
 
-    await result.await();
     getMintedStatus();
   };
 
@@ -80,13 +85,21 @@ const NFTImage = ({ tokenID, getCount }) => {
   }
 
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        margin: 10,
+      }}
+    >
       <img
         src={
           isMinted
             ? imageURI
-            : "https://static.vecteezy.com/ti/vetor-gratis/p3/7126739-icone-de-ponto-de-interrogacao-gratis-vetor.jpg"
+            : "https://png.pngtree.com/png-vector/20190507/ourmid/pngtree-vector-question-mark-icon-png-image_1024598.jpg"
         }
+        style={{ maxWidth: 300, maxHeight: 300 }}
       ></img>
 
       <div>
