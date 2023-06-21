@@ -32,9 +32,9 @@ const Home = () => {
       <WalletBalance />
 
       <h1>Weirdows NFT Collection</h1>
-      <h4>Total NFTs minted: {totalMinted + 1}</h4>
+      <h4>Total NFTs minted: {totalMinted}</h4>
 
-      <div style={{ display: "flex" }}>
+      <div style={{ display: "flex", flexWrap: "wrap" }}>
         {Array(totalMinted + 1)
           .fill(0)
           .map((value, idx) => {
