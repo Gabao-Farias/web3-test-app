@@ -1,14 +1,16 @@
-import { ethers } from "hardhat";
+import { ethers } from "ethers";
 import { useState } from "react";
 
 const WalletBalance = () => {
   const [balance, setBalance] = useState();
 
   const getBalance = async () => {
-    const [account] = await window.ethereum.request({
-      method: "eth_requestAccounts",
-    });
-    const provider = new ethers.provider.getBalance(account);
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+    const [account] = await provider.send("eth_requestAccounts", []);
+
+    const balance = await provider.getBalance(account);
+
     setBalance(ethers.utils.formatEther(balance));
   };
 
