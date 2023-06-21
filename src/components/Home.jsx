@@ -79,7 +79,7 @@ const NFTImage = ({ tokenID }) => {
   };
 
   async function getURI() {
-    const uri = await contract.tokenURI(tokenId);
+    const uri = await contract.tokenURI(tokenID);
 
     alert(uri);
   }
